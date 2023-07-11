@@ -89,5 +89,21 @@ test if you’re able to log in to the MySQL console by running thge next comman
 
 ![exiting mysql console](./images/installing_mysql_DBMS/exiting_mysql_console2.png)
 
+### INSTALLING PHP
+
+Install 3 needed packages which are php, php-mysql, and libapache2-mod-php. Core packages are also installed as dependencies during this installation process.
+
+`sudo apt install php libapache2-mod-php php-mysql`
+
+![installing php, libapache-mod-php and php-mysql](./images/installing_php/installing_php_and_other_packages.png)
+
+confirm php version by running the following command
+
+`php -v`
+
+![confirming php version](./images/installing_php/confirming_php_version.png)
+
+CREATE A VIRTUAL HOST FOR THE WEBSITE USING APACHE
+
 
 
