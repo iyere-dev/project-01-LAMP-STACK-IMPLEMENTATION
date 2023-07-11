@@ -50,4 +50,44 @@ Test how apache http server can respond to requests from the internet
 
  ![testing apache http server using curl command](./images/installing_apache_updating_firewall/testing_apache_http_server.png)
 
- 
+## INSTALLING MYSQL
+
+install mysql relational database managment system
+
+`sudo apt install mysql-server`
+
+![installing mysql-server](./images/installing_mysql_DBMS/installing_mysql-server.png)
+
+log in to mysql console
+
+`sudo mysql`
+
+![log in to mysql database](./images/installing_mysql_DBMS/login_to_mysql_console.png)
+
+ run script to remove some insecure default settings and lock down access to your database system (ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'PassWord.1';
+) then exit
+
+![running script](./images/installing_mysql_DBMS/running_script.png)
+
+`exit`
+
+![exiting mysql console](./images/installing_mysql_DBMS/exiting_mysql_console.png)
+
+start interactive script
+
+`sudo mysql_secure_installation`
+
+![mysql secure installation interactive script](./images/installing_mysql_DBMS/mysql_secure_installation_interactive%20_script.png)
+
+test if you’re able to log in to the MySQL console by running thge next command
+
+`sudo mysql -p`
+
+![testing log in to mysql console with password](./images/installing_mysql_DBMS/test_login_to_mysql_console.png)
+
+`exit`
+
+![exiting mysql console](./images/installing_mysql_DBMS/exiting_mysql_console2.png)
+
+
+
