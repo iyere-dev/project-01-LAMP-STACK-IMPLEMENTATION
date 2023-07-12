@@ -105,5 +105,114 @@ confirm php version by running the following command
 
 CREATE A VIRTUAL HOST FOR THE WEBSITE USING APACHE
 
+Set up a domain called "projectlamp" (By default Apache on UBUNTU 20.04 has one server block that is configured to serve documents from the /var/www/html directory)
 
+Create a directory (projectlamp) in the /var/www/
+
+`sudo mkdir /var/www/projectlamp`
+
+![creating projectlamp directory](./images/creating_a_virtual_host_for_website_using_apache/creating_projectlamp_directory.png)
+
+Assign ownership of the directory with your current system user
+
+`sudo chown -R $USER:$USER /var/www/projectlamp`
+
+![assigning ownership of directory](./images/creating_a_virtual_host_for_website_using_apache/changing_ownership_of_directory.png)
+
+Create and open a new configuration file in Apache sites-available directory using vim editor
+
+`sudo vi /etc/apache2/sites-available/projectlamp.conf`
+
+paste barebones configuration with vim
+
+![pasting barebones configuration](./images/creating_a_virtual_host_for_website_using_apache/pasting_barebones_config_in_vim.png)
+
+Use ls command to show new file in the sites available directory
+
+`sudo ls /etc/apache2/sites-available`
+
+![showing new files in sites-available directory](./images/creating_a_virtual_host_for_website_using_apache/showing_new_files_in_sites-available_directory.png)
+
+use a2ensite command to enable the new virtual host
+
+`sudo a2ensite projectlamp`
+
+![enabling new virtual host](./images/creating_a_virtual_host_for_website_using_apache/enabling_new_virtual_host.png)
+
+You might want to disable the default website that comes installed with Apache. This is required if you’re not using a custom domain name, because in this case Apache’s default configuration would overwrite your virtual host. To disable Apache’s default website use a2dissite command
+
+`sudo a2dissite 000-default`
+
+![disabling default website that comes installed with apache](./images/creating_a_virtual_host_for_website_using_apache/disabling_default_website.png)
+
+Make sure the configuration file doesnt contain any syntax errors
+
+`sudo apache2ctl configtest`
+
+![checking cnfiguration file for syntax errors](./images/creating_a_virtual_host_for_website_using_apache/checking_config_file_for_syntax_errors.png)
+
+Reload Apache for changes to take effect
+
+`sudo systemctl reload apache2`
+
+![reloading apache2](./images/creating_a_virtual_host_for_website_using_apache/reloading_apache2.png)
+
+The new website is now active, but the web root /var/www/projectlamp is still empty. Create an index.html file in that location so that we can test that the virtual host works as expected.
+
+`sudo echo 'Hello LAMP from hostname' $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) 'with public IP' $(curl -s http://169.254.169.254/latest/meta-data/public-ipv4) > /var/www/projectlamp/index.html`
+
+![creating an index.html file in web root /var/www/projectlamp](./images/creating_a_virtual_host_for_website_using_apache/creating_index.html_file.png)
+
+Open website url in browser
+
+[opening website using public url](http://3.121.76.119/)
+
+![opening website using public url](./images/creating_a_virtual_host_for_website_using_apache/website_url_page.png)
+
+[opening website with public DNS](http://ec2-3-121-76-119.eu-central-1.compute.amazonaws.com/)
+
+![opening website with public DNS](./images/creating_a_virtual_host_for_website_using_apache/opening_website_with_public_DNS.png)
+
+ENABLE PHP ON WEBSITE
+
+Change behaviour of index.html file taking precedence over index.php file by editing /etc/apache2/mods-enabled/dir.conf file and change the order in which the index.php file is listed within the DirectoryIndex directive
+
+`sudo vim /etc/apache2/mods-enabled/dir.conf`
+
+In the vim editor effect the changes stated below
+
+<IfModule mod_dir.c>
+        #Change this:
+        #DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm
+        #To this:
+        DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+</IfModule>
+
+![effecting changes in /etc/apache2/mods-enabled/dir.conf](./images/enabling_php_on_website/effecting_changes_with_vim.png)
+
+Reload apache
+
+`sudo systemctl reload apache2`
+
+![reloading apache2](./images/enabling_php_on_website/reloading_apache2.png)
+
+ create a PHP script to test that PHP is correctly installed and configured on your server
+
+ first create a file named index.php inside the custom web root folder then add php code
+ 
+ `vim /var/www/projectlamp/index.php`
+
+![adding php code](./images/enabling_php_on_website/adding_php_code.png)
+
+refresh web page
+
+![refreshed webpage showing php is working as it should](./images/enabling_php_on_website/refreshed_webpage.png)
+
+After checking the relevant information about your PHP server through that page, it’s best to remove the file you created as it contains sensitive information about your PHP environment and your Ubuntu server. 
+
+`sudo rm /var/www/projectlamp/index.php`
+
+![removing file created](./images/enabling_php_on_website/removing_file_created.png)
+
+END OF PROJECT
 
